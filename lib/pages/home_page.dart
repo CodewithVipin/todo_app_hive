@@ -35,7 +35,12 @@ class _HomePageState extends State<HomePage> {
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Task cannot be empty')),
+        SnackBar(
+          content: const Text('Task cannot be empty'),
+          backgroundColor: Colors.redAccent,
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 2),
+        ),
       );
     }
   }
@@ -54,17 +59,29 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[200],
+      backgroundColor:
+          Theme.of(context).scaffoldBackgroundColor, // Dark mode background
       appBar: AppBar(
-        title: const Text('TO DO'),
+        title: const Text(
+          'TO DO',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
+        elevation: 5,
+        shadowColor: Colors.black.withAlpha(100),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: addTask,
-        child: const Icon(Icons.add),
+        backgroundColor: Theme.of(context).primaryColor,
+        child: const Icon(Icons.add), // Use theme color
       ),
       body: tasks.isEmpty
-          ? const Center(child: Text('No tasks available'))
+          ? const Center(
+              child: Text(
+                'No tasks available',
+                style: TextStyle(color: Colors.white54, fontSize: 18),
+              ),
+            )
           : ListView.builder(
               itemCount: tasks.length,
               itemBuilder: (context, index) => TodoTile(

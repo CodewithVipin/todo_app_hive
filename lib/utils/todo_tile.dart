@@ -6,36 +6,49 @@ class TodoTile extends StatelessWidget {
   final String exerciseName;
   final void Function()? onTappedContainer;
 
-  const TodoTile(
-      {super.key,
-      required this.isChecked,
-      required this.istaskCompleted,
-      required this.exerciseName,
-      required this.onTappedContainer});
+  const TodoTile({
+    super.key,
+    required this.isChecked,
+    required this.istaskCompleted,
+    required this.exerciseName,
+    required this.onTappedContainer,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(10),
       child: GestureDetector(
         onTap: onTappedContainer,
         child: Container(
-          padding: EdgeInsets.all(24),
+          padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: isChecked ? Colors.grey[400] : Colors.yellow,
+            color: isChecked
+                ? Colors.green[700] // Subtle green for completion ✅
+                : Theme.of(context).cardColor, // Default dark mode tile
           ),
           child: Row(
             children: [
               Checkbox(
-                  activeColor: Colors.black,
-                  checkColor: Colors.yellow,
-                  value: isChecked,
-                  onChanged: istaskCompleted),
-              Text(
-                exerciseName,
-                style: TextStyle(
-                    decoration: isChecked ? TextDecoration.lineThrough : null),
+                activeColor:
+                    Theme.of(context).primaryColor, // Theme-based accent color
+                checkColor: Colors.black,
+                value: isChecked,
+                onChanged: istaskCompleted,
+              ),
+              Expanded(
+                child: Text(
+                  exerciseName,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 17,
+                    decoration: isChecked ? TextDecoration.lineThrough : null,
+                    color: isChecked
+                        ? Colors.white70
+                        : Colors.white, // Lighter for readability
+                  ),
+                ),
               ),
             ],
           ),
