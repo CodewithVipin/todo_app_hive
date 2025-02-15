@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app_hive/utils/add_task_dialogue.dart';
 import 'package:todo_app_hive/utils/todo_tile.dart';
+import 'package:todo_app_hive/utils/add_task_dialogue.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final VoidCallback toggleTheme; // Function to switch theme
+
+  const HomePage({super.key, required this.toggleTheme});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -35,12 +37,7 @@ class _HomePageState extends State<HomePage> {
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Task cannot be empty'),
-          backgroundColor: Colors.redAccent,
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 2),
-        ),
+        const SnackBar(content: Text('Task cannot be empty')),
       );
     }
   }
@@ -59,29 +56,24 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          Theme.of(context).scaffoldBackgroundColor, // Dark mode background
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
-          'TO DO',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: const Text('TO DO'),
         centerTitle: true,
-        elevation: 5,
-        shadowColor: Colors.black.withAlpha(100),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.brightness_6), // Theme switch icon
+            onPressed: widget.toggleTheme,
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: addTask,
         backgroundColor: Theme.of(context).primaryColor,
-        child: const Icon(Icons.add), // Use theme color
+        child: const Icon(Icons.add),
       ),
       body: tasks.isEmpty
-          ? const Center(
-              child: Text(
-                'No tasks available',
-                style: TextStyle(color: Colors.white54, fontSize: 18),
-              ),
-            )
+          ? const Center(child: Text('No tasks available'))
           : ListView.builder(
               itemCount: tasks.length,
               itemBuilder: (context, index) => TodoTile(

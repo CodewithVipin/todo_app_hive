@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppThemes {
+  // Dark Theme
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: Color(0xFF121212), // Deep dark background
@@ -45,6 +46,28 @@ class AppThemes {
       backgroundColor: Color(0xFF1E1E1E),
       selectedItemColor: Color(0xFFBB86FC),
       unselectedItemColor: Colors.white70,
+    ),
+  );
+
+  // Light Theme
+  static final ThemeData lightTheme = ThemeData(
+    brightness: Brightness.light,
+    scaffoldBackgroundColor: Color(0xFFF5F5F5), // Light gray background
+    primaryColor: Color(0xFF6200EA), // Deep purple primary color
+    hintColor: Color(0xFF03A9F4), // Light blue accent
+    appBarTheme: AppBarTheme(
+      backgroundColor: Color(0xFF6200EA), // Purple AppBar
+      titleTextStyle: TextStyle(
+          color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
+    cardColor: Colors.white, // White card background
+    textTheme: TextTheme(
+      bodyLarge:
+          TextStyle(color: Colors.black87, fontSize: 18), // Visible black text
+      bodyMedium: TextStyle(color: Colors.black54), // Subtle gray text
+      titleLarge: TextStyle(
+          color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
     ),
   );
 }

@@ -16,6 +16,7 @@ class TodoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(10),
       child: GestureDetector(
@@ -25,14 +26,13 @@ class TodoTile extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: isChecked
-                ? Colors.green[700] // Subtle green for completion ✅
-                : Theme.of(context).cardColor, // Default dark mode tile
+                ? Colors.green[700] // Completed task (green)
+                : theme.cardColor, // Theme-based card background
           ),
           child: Row(
             children: [
               Checkbox(
-                activeColor:
-                    Theme.of(context).primaryColor, // Theme-based accent color
+                activeColor: theme.primaryColor, // Uses theme color
                 checkColor: Colors.black,
                 value: isChecked,
                 onChanged: istaskCompleted,
@@ -45,8 +45,9 @@ class TodoTile extends StatelessWidget {
                     fontSize: 17,
                     decoration: isChecked ? TextDecoration.lineThrough : null,
                     color: isChecked
-                        ? Colors.white70
-                        : Colors.white, // Lighter for readability
+                        ? theme.textTheme.bodyMedium!
+                            .color // Lighter color when completed
+                        : theme.textTheme.bodyLarge!.color, // Normal text color
                   ),
                 ),
               ),
