@@ -5,18 +5,21 @@ class TodoTile extends StatelessWidget {
   final void Function(bool?)? istaskCompleted;
   final String exerciseName;
   final void Function()? onTappedContainer;
+  final void Function()? editTask; // ✅ Fix: Remove `BuildContext`
+  final void Function()? deleteTask;
 
   const TodoTile({
     super.key,
     required this.isChecked,
+    required this.deleteTask,
     required this.istaskCompleted,
     required this.exerciseName,
     required this.onTappedContainer,
+    required this.editTask, // ✅ Fix: Changed function signature
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(10),
       child: GestureDetector(
@@ -26,13 +29,13 @@ class TodoTile extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: isChecked
-                ? Colors.green[700] // Completed task (green)
-                : theme.cardColor, // Theme-based card background
+                ? Colors.green[700] // ✅ Green for completed tasks
+                : Theme.of(context).cardColor, // Use theme-based card color
           ),
           child: Row(
             children: [
               Checkbox(
-                activeColor: theme.primaryColor, // Uses theme color
+                activeColor: Theme.of(context).primaryColor,
                 checkColor: Colors.black,
                 value: isChecked,
                 onChanged: istaskCompleted,
@@ -45,11 +48,18 @@ class TodoTile extends StatelessWidget {
                     fontSize: 17,
                     decoration: isChecked ? TextDecoration.lineThrough : null,
                     color: isChecked
-                        ? theme.textTheme.bodyMedium!
-                            .color // Lighter color when completed
-                        : theme.textTheme.bodyLarge!.color, // Normal text color
+                        ? Theme.of(context).textTheme.bodyMedium!.color
+                        : Theme.of(context).textTheme.bodyLarge!.color,
                   ),
                 ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.edit, color: Colors.white70),
+                onPressed: editTask, // ✅ Now it works properly
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete, color: Colors.redAccent),
+                onPressed: deleteTask, // ✅ Now it works properly
               ),
             ],
           ),
